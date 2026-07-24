@@ -1,6 +1,6 @@
 import React from 'react';
 import Cell from './Cell';
-import type { Board as BoardType } from '../contracts/types';
+import type { Board as BoardType } from '../types';
 
 interface Props {
   board: BoardType;
@@ -10,9 +10,9 @@ interface Props {
 const SudokuBoard: React.FC<Props> = ({ board, onCellChange }) => {
   return (
     <div className="sudoku-board">
-      {board.map((row, rowIndex) => (
+      {board.map((row: ReadonlyArray<number>, rowIndex: number) => (
         <div className="board-row" key={rowIndex}>
-          {row.map((cellValue, colIndex) => (
+          {row.map((cellValue: number, colIndex: number) => (
             <Cell
               key={colIndex}
               row={rowIndex}

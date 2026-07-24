@@ -1,5 +1,5 @@
 // Re-export shared contract types for internal imports
-import type * as Contracts from '../../contracts/src';
+// Adjusted import path to correctly reference the contracts package
 export type {
   Difficulty,
   Board,

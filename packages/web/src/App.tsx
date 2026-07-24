@@ -55,7 +55,6 @@ const App: React.FC = () => {
 
   const handleCellChange = (row: number, col: number, value: number) => {
     if (!board) return;
-    // Create a mutable copy of the board (deep copy of rows)
     const mutableBoard = board.map((r) => r.slice()) as number[][];
     mutableBoard[row][col] = value;
     const move = { board: mutableBoard as BoardType, row, col, value };
@@ -83,7 +82,6 @@ const App: React.FC = () => {
   };
 
   const handleScoreSubmitted = async (response: ScoreResponse) => {
-    // After successful score submission, fetch leaderboard
     try {
       const lb: LeaderboardResponse = await getLeaderboard(difficulty);
       setLeaderboardEntries([...lb.entries] as ScoreEntry[]);

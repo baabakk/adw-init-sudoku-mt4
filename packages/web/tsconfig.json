@@ -1,21 +1,18 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
     "composite": true,
     "jsx": "react-jsx",
-    "module": "ESNext",
-    "target": "ES2022",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "strict": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "isolatedModules": true
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
-  "references": [{"path": "../contracts"}]
+  "references": [{ "path": "../contracts" }]
 }

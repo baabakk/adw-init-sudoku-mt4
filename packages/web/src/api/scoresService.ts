@@ -1,35 +1,54 @@
-import type { Difficulty, ScoreSubmission, ScoreResponse, LeaderboardResponse, ErrorResponse } from '../contracts/types';
-
-const API_BASE = '';
+import type { Difficulty, ScoreSubmission, ScoreResponse, LeaderboardResponse, ErrorResponse } from '../types';
 
 /**
  * Submit a completed game score to the Scores Service.
+ *
+ * @param submission - The score payload to send.
+ * @returns The parsed ScoreResponse from the service.
+ * @throws An ErrorResponse if the request fails.
  */
 export async function submitScore(submission: ScoreSubmission): Promise<ScoreResponse> {
-  const url = `${API_BASE}/scores`;
-  const resp = await fetch(url, {
+  const response = await fetch('/scores', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(submission),
   });
-  if (!resp.ok) {
-    const err: ErrorResponse = await resp.json();
+
+  if (!response.ok) {
+    // Attempt to parse error response
+    const err: ErrorResponse = await response.json();
     throw err;
   }
-  const data: ScoreResponse = await resp.json();
+
+  const data: ScoreResponse = await response.json();
   return data;
 }
 
 /**
- * Retrieve the leaderboard for a given difficulty.
+ * Retrieve the top‑10 leaderboard for a given difficulty.
+ *
+ * @param difficulty - The difficulty level to query.
+ * @returns The parsed LeaderboardResponse.
+ * @throws An ErrorResponse if the request fails.
  */
 export async function getLeaderboard(difficulty: Difficulty): Promise<LeaderboardResponse> {
-  const url = `${API_BASE}/leaderboard?difficulty=${encodeURIComponent(difficulty)}`;
-  const resp = await fetch(url);
-  if (!resp.ok) {
-    const err: ErrorResponse = await resp.json();
+  const url = new URL('/leaderboard', window.location.origin);
+  url.searchParams.append('difficulty', difficulty);
+
+  const response = await fetch(url.toString(), {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    const err: ErrorResponse = await response.json();
     throw err;
   }
-  const data: LeaderboardResponse = await resp.json();
+
+  const data: LeaderboardResponse = await response.json();
   return data;
 }

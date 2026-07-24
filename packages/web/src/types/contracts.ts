@@ -7,7 +7,22 @@ import type {
   GetPuzzleResponse,
   ValidateResponse,
   ErrorResponse,
-  MoveValidation,
-} from '../../../contracts/src/index';
+  Score,
+  ScoreEntry,
+  ScoreResponse,
+  ScoreSubmission,
+  LeaderboardResponse,
+} from '../../../contracts/src';
 
-export type { Board, Difficulty, GetPuzzleResponse, ValidateResponse, ErrorResponse, MoveValidation };
+export type {
+  Board,
+  Difficulty,
+  GetPuzzleResponse,
+  ValidateResponse,
+  ErrorResponse,
+  Score,
+  ScoreEntry,
+  ScoreResponse,
+  ScoreSubmission,
+  LeaderboardResponse,
+};
