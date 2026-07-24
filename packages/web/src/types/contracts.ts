@@ -1,28 +1,16 @@
-// Re-export shared contract types for the web client.
-// This file provides local aliases to avoid deep import paths throughout the codebase.
-
-import type {
-  Board,
-  Difficulty,
-  GetPuzzleResponse,
-  ValidateResponse,
-  ErrorResponse,
-  Score,
-  ScoreEntry,
-  ScoreResponse,
-  ScoreSubmission,
-  LeaderboardResponse,
-} from '../../contracts';
+// Internal type re-exports for the web client.
+// Previously this file attempted to import a non‑existent `MoveValidation` contract,
+// which caused compilation errors. The shared contracts package does not export
+// such a type, so we only re‑export the types that actually exist.
 
 export type {
-  Board,
   Difficulty,
+  Board,
   GetPuzzleResponse,
   ValidateResponse,
   ErrorResponse,
-  Score,
-  ScoreEntry,
-  ScoreResponse,
   ScoreSubmission,
+  ScoreResponse,
   LeaderboardResponse,
-};
+  ScoreEntry,
+} from '../../contracts';
