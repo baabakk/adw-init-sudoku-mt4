@@ -1,5 +1,4 @@
 // Re-export shared contract types for internal imports
-// Adjusted import path to correctly reference the contracts package
 export type {
   Difficulty,
   Board,
@@ -10,4 +9,4 @@ export type {
   ScoreResponse,
   LeaderboardResponse,
   ScoreEntry,
-} from '../../contracts/src';
+} from '../../contracts';

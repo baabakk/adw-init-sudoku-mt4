@@ -9,7 +9,7 @@ import type {
   LeaderboardResponse,
   ScoreEntry,
   ErrorResponse,
-} from '../../contracts/src';
+} from '../../contracts';
 
 export type {
   Difficulty,

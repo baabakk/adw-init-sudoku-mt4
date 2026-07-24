@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { submitScore } from '../api/scoresService';
-import type { ScoreSubmission, ScoreResponse, ErrorResponse, Difficulty } from '../contracts/types';
+import type { ScoreSubmission, ScoreResponse, ErrorResponse, Difficulty } from '../../../contracts';
 import ErrorDisplay from './ErrorDisplay';
 import './styles/ScoreSubmission.css';
 
@@ -14,7 +14,7 @@ const ScoreSubmission: React.FC<Props> = ({ difficulty, timeToSolve, onScoreSubm
   const [playerName, setPlayerName] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ const ScoreSubmission: React.FC<Props> = ({ difficulty, timeToSolve, onScoreSubm
     const payload: ScoreSubmission = {
       playerName,
       difficulty,
-      timeToSolve: timeToSolve * 1000, // convert seconds to ms
+      timeToSolve: timeToSolve * 1000,
     };
     try {
       const resp: ScoreResponse = await submitScore(payload);

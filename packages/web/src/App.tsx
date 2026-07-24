@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import DifficultySelector from './components/DifficultySelector';
 import SudokuBoard from './components/SudokuBoard';
 import ValidationResult from './components/ValidationResult';
-import ScoreSubmission from './components/ScoreSubmission';
+import ScoreSubmissionComponent from './components/ScoreSubmission';
 import Leaderboard from './components/Leaderboard';
 import ErrorDisplay from './components/ErrorDisplay';
 import { getPuzzle, validateBoard } from './services/api';
-import { submitScore, getLeaderboard } from './api/scoresService';
+import { getLeaderboard } from './api/scoresService';
 import type {
   Board as BoardType,
   Difficulty,
@@ -18,6 +18,7 @@ import type {
   ScoreEntry,
 } from './types';
 import { isMoveValid } from './utils/moveValidation';
+import type { Move } from './utils/moveValidation';
 import './styles/Board.css';
 import './styles/App.css';
 
@@ -57,7 +58,7 @@ const App: React.FC = () => {
     if (!board) return;
     const mutableBoard = board.map((r) => r.slice()) as number[][];
     mutableBoard[row][col] = value;
-    const move = { board: mutableBoard as BoardType, row, col, value };
+    const move: Move = { board: mutableBoard, row, col, value };
     if (!isMoveValid(move)) {
       setMoveError(`Invalid move at (${row + 1}, ${col + 1})`);
     } else {
@@ -113,7 +114,7 @@ const App: React.FC = () => {
         <>
           <ValidationResult isCorrect={validationResult.isCorrect} />
           {validationResult.isCorrect && (
-            <ScoreSubmission
+            <ScoreSubmissionComponent
               difficulty={difficulty}
               timeToSolve={elapsedTime}
               onScoreSubmitted={handleScoreSubmitted}

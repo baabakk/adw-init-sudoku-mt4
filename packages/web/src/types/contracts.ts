@@ -12,7 +12,7 @@ import type {
   ScoreResponse,
   ScoreSubmission,
   LeaderboardResponse,
-} from '../../../contracts/src';
+} from '../../contracts';
 
 export type {
   Board,

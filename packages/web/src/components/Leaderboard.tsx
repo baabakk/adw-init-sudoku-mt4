@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getLeaderboard } from '../api/scoresService';
-import type { LeaderboardResponse, ScoreEntry, Difficulty, ErrorResponse } from '../contracts/types';
+import type { LeaderboardResponse, ScoreEntry, Difficulty, ErrorResponse } from '../../../contracts';
 import ErrorDisplay from './ErrorDisplay';
 import '../styles/Leaderboard.css';
 
