@@ -1,23 +1,24 @@
 // src/index.ts
+// Entry point for the Scores Service.
+// Sets up an Express application, registers the unified router, and starts the server.
+
 import express, { Request, Response, NextFunction } from "express";
-import scoresRouter from "./routes/scores";
-import leaderboardRouter from "./routes/leaderboard";
+import router from "./routes";
 
 const app = express();
 
-// Middleware
+// Middleware to parse JSON bodies.
 app.use(express.json());
 
-// Routes
-app.use(scoresRouter);
-app.use(leaderboardRouter);
+// Register the unified router handling /scores and /leaderboard.
+app.use(router);
 
-// Simple health check
+// Simple health check endpoint.
 app.get("/health", (_req: Request, res: Response) => {
   res.json({ status: "ok" });
 });
 
-// Error handling – catch‑all
+// Global error handler.
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err);
   res.status(500).json({ error: "Internal Server Error" });
