@@ -1,40 +1,11 @@
-/**
- * Difficulty levels for Sudoku puzzles.
- */
-export type Difficulty = 'easy' | 'medium' | 'hard';
+import {
+  GetPuzzleResponse,
+  ValidateRequest,
+  ValidateResponse,
+  ErrorResponse,
+  Difficulty,
+  Board,
+} from '@init-sudoku-mt4/contracts';
 
-/**
- * Response payload for GET /puzzle.
- */
-export interface GetPuzzleResponse {
-  /** 9x9 Sudoku board where 0 represents an empty cell */
-  board: number[][];
-  /** Difficulty level of the generated puzzle */
-  difficulty: Difficulty;
-}
-
-/**
- * Request payload for POST /validate.
- */
-export interface ValidateRequest {
-  /** 9x9 Sudoku board submitted for validation */
-  board: number[][];
-}
-
-/**
- * Response payload for POST /validate.
- */
-export interface ValidateResponse {
-  /** Whether the submitted board is a correct solution */
-  isCorrect: boolean;
-}
-
-/**
- * Standard error response format.
- */
-export interface ErrorResponse {
-  /** Machine‑readable error code */
-  errorCode: string;
-  /** Human‑readable error message */
-  message: string;
-}
+export type { Difficulty, Board };
+export { GetPuzzleResponse, ValidateRequest, ValidateResponse, ErrorResponse };

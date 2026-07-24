@@ -1,26 +1,19 @@
 import express, { Request, Response, NextFunction } from 'express';
-import puzzleRouter from './routes/puzzleRoutes';
-import { errorHandler } from './middleware/errorHandler';
+import { json } from 'body-parser';
+import routes from './routes';
+import { errorHandler } from './errors';
 
 const app = express();
-
-// Middleware to parse JSON bodies
-app.use(express.json());
-
-// Mount the puzzle router at the root path
-app.use('/', puzzleRouter);
-
-// 404 handler for unknown routes
-app.use((req: Request, _res: Response, next: NextFunction) => {
-  const err: any = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use(json());
+app.use('/api', routes);
+// Fallback route for health check or root
+app.get('/', (_req: Request, res: Response) => {
+  res.send('Puzzle Service is running');
 });
-
-// Central error handling middleware
+// Error handling middleware (must be after routes)
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT ?? 3000;
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Puzzle Service listening on port ${PORT}`);

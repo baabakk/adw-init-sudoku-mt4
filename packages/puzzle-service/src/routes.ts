@@ -1,38 +1,34 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { generatePuzzle, validatePuzzle } from './service';
-import { GetPuzzleResponse, ValidateRequest, ValidateResponse, ErrorResponse } from './types';
+import { getPuzzle, validatePuzzle } from './service';
+import { GetPuzzleResponse, ValidateRequest, ValidateResponse } from './types';
 
 const router = Router();
 
-// GET /puzzle?difficulty=easy|medium|hard
-router.get('/puzzle', (req: Request, res: Response<GetPuzzleResponse | ErrorResponse>, next: NextFunction) => {
-  const difficulty = req.query.difficulty as string;
-  if (!difficulty || !['easy', 'medium', 'hard'].includes(difficulty)) {
-    const err: any = new Error('Invalid difficulty');
-    err.status = 400;
-    return next(err);
-  }
+/**
+ * GET /puzzle?difficulty=easy|medium|hard
+ * Returns a generated puzzle.
+ */
+router.get('/puzzle', (req: Request, res: Response, next: NextFunction) => {
   try {
-    const puzzle = generatePuzzle(difficulty);
+    const difficulty = (req.query.difficulty as string) ?? 'easy';
+    const puzzle: GetPuzzleResponse = getPuzzle(difficulty);
     res.json(puzzle);
-  } catch (e) {
-    return next(e);
+  } catch (err) {
+    next(err);
   }
 });
 
-// POST /validate
-router.post('/validate', (req: Request<{}, ValidateResponse | ErrorResponse, ValidateRequest>, res: Response<ValidateResponse | ErrorResponse>, next: NextFunction) => {
-  const { board } = req.body;
-  if (!board || !Array.isArray(board) || board.length !== 9) {
-    const err: any = new Error('Invalid board payload');
-    err.status = 400;
-    return next(err);
-  }
+/**
+ * POST /validate
+ * Body: { board: number[][] }
+ */
+router.post('/validate', (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = validatePuzzle(board);
+    const body = req.body as ValidateRequest;
+    const result: ValidateResponse = validatePuzzle(body.board);
     res.json(result);
-  } catch (e) {
-    return next(e);
+  } catch (err) {
+    next(err);
   }
 });
 

@@ -6,15 +6,12 @@
     "composite": true,
     "declaration": true,
     "sourceMap": true,
+    "lib": ["ES2022"],
     "moduleResolution": "node",
-    "target": "ES2022",
-    "module": "CommonJS",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": ["node", "jest", "supertest"]
+    "strict": true
   },
   "include": ["src"],
-  "references": [{"path": "../contracts"}]
+  "references": [{ "path": "../contracts" }]
 }
