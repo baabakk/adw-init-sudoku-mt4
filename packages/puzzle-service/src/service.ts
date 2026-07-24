@@ -1,21 +1,31 @@
-import { Difficulty, GetPuzzleResponse, ValidateResponse } from './types';
+import { GetPuzzleResponse, ValidateResponse, Difficulty } from './types';
 
 /**
- * Generates a Sudoku puzzle board for the given difficulty.
- * This is a stub implementation that returns an empty 9x9 board.
- * In a real implementation, a puzzle generator would create a uniquely solvable board.
+ * Generate a Sudoku puzzle for the given difficulty.
+ * For the purpose of this service we return an empty board (all zeros).
+ * In a real implementation this would generate a uniquely solvable puzzle.
  */
-export function getPuzzle(difficulty: Difficulty): GetPuzzleResponse {
-  // Create a 9x9 board filled with zeros (empty cells)
+export function generatePuzzle(difficulty: string): GetPuzzleResponse {
+  const diff = difficulty as Difficulty;
   const board: number[][] = Array.from({ length: 9 }, () => Array(9).fill(0));
-  return { board, difficulty };
+  return { board, difficulty: diff };
 }
 
 /**
- * Validates a submitted Sudoku board.
- * This stub simply checks that the board is a 9x9 array of numbers and returns true.
+ * Validate a submitted Sudoku board.
+ * This placeholder implementation simply checks that the board is a 9x9 array
+ * and returns true. Real validation would verify Sudoku rules.
  */
-export function validateSolution(board: number[][]): ValidateResponse {
-  const isCorrect = Array.isArray(board) && board.length === 9 && board.every(row => Array.isArray(row) && row.length === 9 && row.every(cell => typeof cell === 'number'));
-  return { isCorrect };
+export function validatePuzzle(board: number[][]): ValidateResponse {
+  // Basic shape validation
+  if (!Array.isArray(board) || board.length !== 9) {
+    return { isCorrect: false };
+  }
+  for (const row of board) {
+    if (!Array.isArray(row) || row.length !== 9) {
+      return { isCorrect: false };
+    }
+  }
+  // Placeholder: assume correct
+  return { isCorrect: true };
 }

@@ -1,26 +1,17 @@
-import { Request, Response, NextFunction } from 'express';
 import { ErrorResponse } from './types';
 
 /**
- * Custom error class for service errors.
+ * Utility to create a standardized ErrorResponse object.
  */
-export class ServiceError extends Error {
-  public status: number;
-  public errorCode: string;
-  constructor(message: string, status = 500, errorCode = String(status)) {
-    super(message);
-    this.status = status;
-    this.errorCode = errorCode;
-    // Set the prototype explicitly.
-    Object.setPrototypeOf(this, ServiceError.prototype);
-  }
+export function createErrorResponse(errorCode: string, message: string): ErrorResponse {
+  return { errorCode, message };
 }
 
 /**
- * Central error handling middleware.
- * It converts thrown errors or passed error objects into a JSON response
- * adhering to the shared `ErrorResponse` contract.
+ * Central Express error handling middleware.
+ * It expects errors to have optional `status` and `errorCode` properties.
  */
+import { Request, Response, NextFunction } from 'express';
 export function errorHandler(
   err: any,
   _req: Request,
