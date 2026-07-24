@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Difficulty } from '../../contracts/types';
+import type { Difficulty } from '../contracts/types';
 
 interface Props {
   selected: Difficulty;

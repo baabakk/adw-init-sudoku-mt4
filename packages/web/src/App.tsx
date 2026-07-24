@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import DifficultySelector from './components/DifficultySelector';
-import Board from './components/Board';
+import SudokuBoard from './components/SudokuBoard';
 import ValidationResult from './components/ValidationResult';
 import { getPuzzle, validateBoard } from './services/api';
 import type { Board as BoardType, Difficulty, GetPuzzleResponse, ValidateResponse, ErrorResponse, MoveValidation } from './contracts/types';
 import { isMoveValid } from './utils/moveValidation';
 import './styles/Board.css';
+import './styles/App.css';
 
 const App: React.FC = () => {
   const [difficulty, setDifficulty] = useState<Difficulty>('easy');
@@ -37,8 +38,7 @@ const App: React.FC = () => {
   const handleCellChange = (row: number, col: number, value: number) => {
     if (!board) return;
     const newBoard = board.map((r) => r.slice()) as BoardType;
-    newBoard[row][col] = value as any; // Board type expects numbers 0-9
-    // Prepare move validation contract
+    newBoard[row][col] = value as any;
     const move: MoveValidation = {
       board: newBoard,
       row,
@@ -76,7 +76,7 @@ const App: React.FC = () => {
       {error && <p className="error">{error}</p>}
       {board && (
         <>
-          <Board board={board} onCellChange={handleCellChange} />
+          <SudokuBoard board={board} onCellChange={handleCellChange} />
           {moveError && <p className="error">{moveError}</p>}
           <button onClick={handleSubmit} disabled={loading} className="submit-button">
             Submit Solution
