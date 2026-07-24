@@ -10,9 +10,9 @@ interface Props {
 const Board: React.FC<Props> = ({ board, onCellChange }) => {
   return (
     <div className="sudoku-board">
-      {board.map((row, rowIndex) => (
+      {board.map((row: number[], rowIndex: number) => (
         <div className="board-row" key={rowIndex}>
-          {row.map((cellValue, colIndex) => (
+          {row.map((cellValue: number, colIndex: number) => (
             <Cell
               key={colIndex}
               row={rowIndex}

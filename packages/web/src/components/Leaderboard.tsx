@@ -6,14 +6,17 @@ import ErrorDisplay from './ErrorDisplay';
 interface Props {
   /** Difficulty for which to show the leaderboard */
   difficulty: Difficulty;
+  /** Optional pre-fetched entries; if not provided, component will fetch */
+  entries?: ScoreEntry[];
 }
 
-const Leaderboard: React.FC<Props> = ({ difficulty }) => {
-  const [entries, setEntries] = useState<ScoreEntry[]>([]);
+const Leaderboard: React.FC<Props> = ({ difficulty, entries: propEntries }) => {
+  const [entries, setEntries] = useState<ScoreEntry[]>(propEntries ?? []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (propEntries) return; // already have entries
     const fetchLeaderboard = async () => {
       setLoading(true);
       setError(null);
@@ -28,7 +31,7 @@ const Leaderboard: React.FC<Props> = ({ difficulty }) => {
       }
     };
     fetchLeaderboard();
-  }, [difficulty]);
+  }, [difficulty, propEntries]);
 
   if (loading) return <p>Loading leaderboard...</p>;
   if (error) return <ErrorDisplay message={error} />;

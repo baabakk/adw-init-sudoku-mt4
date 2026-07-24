@@ -1,13 +1,27 @@
-// Local type definitions that re-export shared contract interfaces for convenience.
-// This file ensures the web client can import the exact contract shapes without
-// needing to know the internal path of the contracts package.
+export type Difficulty = 'easy' | 'medium' | 'hard';
 
-import type {
-  ScoreSubmission,
-  ScoreResponse,
-  LeaderboardResponse,
-  ScoreEntry,
-  ErrorResponse,
-} from "../contracts/types";
+export interface ScoreSubmission {
+  playerName: string;
+  difficulty: Difficulty;
+  timeToSolve: number; // milliseconds
+}
 
-export type { ScoreSubmission, ScoreResponse, LeaderboardResponse, ScoreEntry, ErrorResponse };
+export interface ScoreResponse {
+  status: string;
+}
+
+export interface ScoreEntry {
+  playerName: string;
+  difficulty: Difficulty;
+  timeToSolve: number; // milliseconds
+  rank: number;
+}
+
+export interface LeaderboardResponse {
+  entries: ScoreEntry[];
+}
+
+export interface ErrorResponse {
+  errorCode: string;
+  message: string;
+}

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { submitScore } from '../services/api';
-import type { ScoreSubmission, ScoreResponse, ErrorResponse } from '../contracts/types';
+import type { ScoreSubmission, ScoreResponse, ErrorResponse, Difficulty } from '../contracts/types';
 import ErrorDisplay from './ErrorDisplay';
 
 interface Props {
   /** Difficulty of the puzzle that was solved */
-  difficulty: string;
+  difficulty: Difficulty;
   /** Time taken to solve the puzzle in milliseconds */
   timeToSolve: number;
   /** Callback invoked after a successful score submission */
@@ -27,7 +27,7 @@ const ScoreSubmission: React.FC<Props> = ({ difficulty, timeToSolve, onScoreSubm
     setError(null);
     const payload: ScoreSubmission = {
       playerName: playerName.trim(),
-      difficulty: difficulty as any,
+      difficulty,
       timeToSolve,
     };
     try {

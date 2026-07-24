@@ -9,9 +9,8 @@ export type {
   GetPuzzleResponse,
   ValidateResponse,
   ErrorResponse,
-  MoveValidation,
   ScoreSubmission,
   ScoreResponse,
   LeaderboardResponse,
   ScoreEntry,
-} from "../../contracts/src/index";
+} from "../../../contracts/src/index";

@@ -5,7 +5,8 @@ import ValidationResult from './components/ValidationResult';
 import ScoreSubmission from './components/ScoreSubmission';
 import Leaderboard from './components/Leaderboard';
 import ErrorDisplay from './components/ErrorDisplay';
-import { getPuzzle, validateBoard, submitScore, getLeaderboard } from './services/api';
+import { getPuzzle, validateBoard } from './services/api';
+import { submitScore, getLeaderboard } from './api/scoresService';
 import type {
   Board as BoardType,
   Difficulty,
@@ -29,6 +30,7 @@ const App: React.FC = () => {
   const [moveError, setMoveError] = useState<string | null>(null);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [leaderboardEntries, setLeaderboardEntries] = useState<ScoreEntry[]>([]);
+  const [startTime, setStartTime] = useState<number>(0);
 
   const fetchPuzzle = async (diff: Difficulty) => {
     setLoading(true);
@@ -38,6 +40,7 @@ const App: React.FC = () => {
     try {
       const data: GetPuzzleResponse = await getPuzzle(diff);
       setBoard(data.board);
+      setStartTime(Date.now());
     } catch (e) {
       const err = e as ErrorResponse;
       setError(err.message ?? 'Failed to fetch puzzle');
@@ -54,12 +57,7 @@ const App: React.FC = () => {
     if (!board) return;
     const newBoard = board.map((r) => r.slice()) as BoardType;
     newBoard[row][col] = value;
-    const move = {
-      board: newBoard,
-      row,
-      col,
-      value,
-    };
+    const move = { board: newBoard, row, col, value };
     if (!isMoveValid(move)) {
       setMoveError(`Invalid move at (${row + 1}, ${col + 1})`);
     } else {
@@ -95,6 +93,8 @@ const App: React.FC = () => {
     }
   };
 
+  const elapsedTime = board ? Math.floor((Date.now() - startTime) / 1000) : 0;
+
   return (
     <div className="app-container">
       <h1>Sudoku</h1>
@@ -116,7 +116,7 @@ const App: React.FC = () => {
           {validationResult.isCorrect && (
             <ScoreSubmission
               difficulty={difficulty}
-              timeToSolve={/* TODO: calculate elapsed time */ 0}
+              timeToSolve={elapsedTime}
               onScoreSubmitted={handleScoreSubmitted}
             />
           )}
