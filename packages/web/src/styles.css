@@ -1,0 +1,73 @@
+/* General layout */
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Error display */
+.error-display {
+  color: #b00020;
+  background: #fdd;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+}
+
+/* Score submission */
+.score-submission {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+.score-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.score-input {
+  flex: 1;
+  padding: 0.4rem;
+  font-size: 1rem;
+}
+
+.score-button {
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.score-button:disabled {
+  background: #90caf9;
+  cursor: not-allowed;
+}
+
+/* Leaderboard */
+.leaderboard {
+  margin-top: 1.5rem;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.leaderboard-table th {
+  background: #f0f0f0;
+}

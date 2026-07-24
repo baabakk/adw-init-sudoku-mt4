@@ -1,13 +1,17 @@
 // Re-export shared contract types for the web client.
-// This file provides local aliases to avoid deep import paths throughout the codebase.
+// This file provides a convenient import path for components within the web
+// package while ensuring the exact shapes defined in the shared contracts are
+// used.
 
-import type {
+export type {
   Board,
   Difficulty,
   GetPuzzleResponse,
   ValidateResponse,
   ErrorResponse,
   MoveValidation,
-} from '../../../contracts/src/index';
-
-export type { Board, Difficulty, GetPuzzleResponse, ValidateResponse, ErrorResponse, MoveValidation };
+  ScoreSubmission,
+  ScoreResponse,
+  LeaderboardResponse,
+  ScoreEntry,
+} from "../../contracts/src/index";
