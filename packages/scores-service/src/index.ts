@@ -1,30 +1,26 @@
-// src/index.ts
-// Entry point for the Scores Service.
-// Sets up an Express application, registers the unified router, and starts the server.
-
 import express, { Request, Response, NextFunction } from "express";
-import router from "./routes";
+import scoresRouter from "./routes/scores";
+import leaderboardRouter from "./routes/leaderboard";
 
 const app = express();
-
-// Middleware to parse JSON bodies.
 app.use(express.json());
 
-// Register the unified router handling /scores and /leaderboard.
-app.use(router);
+// Mount routers
+app.use(scoresRouter);
+app.use(leaderboardRouter);
 
-// Simple health check endpoint.
-app.get("/health", (_req: Request, res: Response) => {
+// Simple health check
+app.get("/health", (req: Request, res: Response) => {
   res.json({ status: "ok" });
 });
 
-// Global error handler.
-app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+// Global error handler (fallback)
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
-  res.status(500).json({ error: "Internal Server Error" });
+  res.status(500).json({ errorCode: "INTERNAL_ERROR", message: "An unexpected error occurred" });
 });
 
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Scores Service listening on port ${PORT}`);
 });

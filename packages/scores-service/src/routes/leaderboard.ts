@@ -1,23 +1,22 @@
 // src/routes/leaderboard.ts
 import { Router, Request, Response } from "express";
-import { Difficulty, LeaderboardResponse } from "@init-sudoku-mt4/contracts";
+import { Difficulty, LeaderboardResponse, ScoreEntry } from "@init-sudoku-mt4/contracts";
 import { getTopScores } from "../store";
 
 const router = Router();
 
-function parseDifficulty(value: any): Difficulty | undefined {
-  if (typeof value !== "string") return undefined;
-  if (value === "easy" || value === "medium" || value === "hard") return value as Difficulty;
-  return undefined;
+function isValidDifficulty(d: string): d is Difficulty {
+  return d === "easy" || d === "medium" || d === "hard";
 }
 
 router.get("/leaderboard", (req: Request, res: Response) => {
-  const difficulty = parseDifficulty(req.query.difficulty);
-  if (!difficulty) {
+  const difficultyParam = req.query.difficulty as string | undefined;
+  if (!difficultyParam || !isValidDifficulty(difficultyParam)) {
     return res.status(400).json({ entries: [] } as LeaderboardResponse);
   }
-  const top = getTopScores(difficulty);
-  const response: LeaderboardResponse = { entries: top };
+
+  const entries: ScoreEntry[] = getTopScores(difficultyParam);
+  const response: LeaderboardResponse = { entries };
   res.json(response);
 });
 

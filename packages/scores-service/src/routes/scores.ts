@@ -29,7 +29,8 @@ router.post("/scores", (req: Request, res: Response) => {
     return res.status(400).json(error);
   }
 
-  const entry = {
+  // At this point body is a valid ScoreSubmission with difficulty narrowed.
+  const entry: ScoreSubmission = {
     playerName: body.playerName,
     difficulty: body.difficulty,
     timeToSolve: body.timeToSolve,

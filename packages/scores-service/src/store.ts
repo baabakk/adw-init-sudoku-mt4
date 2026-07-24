@@ -16,16 +16,17 @@ const scores: InternalScore[] = [];
 
 /**
  * Add a new score entry to the store.
+ * Accepts either a ScoreSubmission (no rank) or a ScoreEntry (may include rank).
  * If an identical entry (same playerName, difficulty, and timeToSolve) already exists,
  * the call is ignored.
  */
-export function addScore(entry: ScoreSubmission): void {
+export function addScore(entry: ScoreSubmission | ScoreEntry): void {
   // Validate difficulty – defensive programming.
   if (!isValidDifficulty(entry.difficulty)) {
     throw new Error(`Invalid difficulty: ${entry.difficulty}`);
   }
 
-  // Check for duplicate.
+  // Check for duplicate based on core fields.
   const duplicate = scores.find(
     (s) =>
       s.playerName === entry.playerName &&
@@ -54,7 +55,6 @@ export function getTopScores(difficulty: Difficulty, limit = 10): ScoreEntry[] {
   const filtered = scores.filter((s) => s.difficulty === difficulty);
   const sorted = filtered.sort((a, b) => a.timeToSolve - b.timeToSolve);
   const top = sorted.slice(0, limit);
-  // Map to ScoreEntry with rank.
   return top.map((s, idx) => ({
     playerName: s.playerName,
     difficulty: s.difficulty,
