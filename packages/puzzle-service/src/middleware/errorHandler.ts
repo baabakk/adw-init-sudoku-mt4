@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { ErrorResponse } from '@init-sudoku-mt4/contracts';
+import { ErrorResponse } from '../models/ErrorResponse';
 
 /**
  * Central error handling middleware.
  * It converts thrown errors or passed error objects into a JSON response
- * adhering to the shared `ErrorResponse` contract.
+ * adhering to the local `ErrorResponse` model (which matches the shared contract).
  */
 export function errorHandler(
   err: any,
@@ -15,8 +15,8 @@ export function errorHandler(
 ) {
   const status = err.status ?? 500;
   const payload: ErrorResponse = {
-    error: err.message ?? 'Internal Server Error',
-    code: status,
+    errorCode: err.errorCode ?? String(status),
+    message: err.message ?? 'Internal Server Error',
   };
   res.status(status).json(payload);
 }

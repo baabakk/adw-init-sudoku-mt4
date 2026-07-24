@@ -1,16 +1,14 @@
 import express, { Request, Response, NextFunction } from 'express';
-import puzzleRouter from './routes/puzzle';
-import validateRouter from './routes/validate';
+import puzzleRouter from './routes/puzzleRoutes';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
 
-// Middleware
+// Middleware to parse JSON bodies
 app.use(express.json());
 
-// Routes
-app.use('/puzzle', puzzleRouter);
-app.use('/validate', validateRouter);
+// Mount the puzzle router at the root path
+app.use('/', puzzleRouter);
 
 // 404 handler for unknown routes
 app.use((req: Request, _res: Response, next: NextFunction) => {
@@ -19,7 +17,7 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
   next(err);
 });
 
-// Central error handler
+// Central error handling middleware
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
