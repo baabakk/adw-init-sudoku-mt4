@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { getPuzzle, postValidate } from '../controllers/puzzleController';
+import { getPuzzle, postValidate } from './controllers/puzzleController';
 
 const router = Router();
 
