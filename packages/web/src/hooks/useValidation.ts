@@ -19,7 +19,7 @@ export function useValidation() {
       setResult(res);
     } catch (e) {
       const err = e as ErrorResponse;
-      setError(err.error ?? 'Validation failed');
+      setError(err.message ?? 'Validation failed');
     } finally {
       setLoading(false);
     }

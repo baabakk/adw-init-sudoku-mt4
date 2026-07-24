@@ -56,7 +56,8 @@ const App: React.FC = () => {
 
   const handleCellChange = (row: number, col: number, value: number) => {
     if (!board) return;
-    const mutableBoard = board.map((r) => r.slice()) as number[][];
+    // Create a mutable copy of the board
+    const mutableBoard: number[][] = board.map((r) => [...r]);
     mutableBoard[row][col] = value;
     const move: Move = { board: mutableBoard, row, col, value };
     if (!isMoveValid(move)) {

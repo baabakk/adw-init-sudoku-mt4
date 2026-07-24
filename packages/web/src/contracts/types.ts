@@ -1,14 +1,13 @@
-// Re-export shared contract types for internal use within the web client.
-// This file intentionally does NOT import any non‑existent members such as MoveValidation.
-
+// Re-export shared contract types for convenience within the web client.
+// Excludes any non-existent types such as MoveValidation.
 export type {
   Difficulty,
   Board,
   GetPuzzleResponse,
   ValidateResponse,
-  ErrorResponse,
   ScoreSubmission,
   ScoreResponse,
   LeaderboardResponse,
   ScoreEntry,
-} from '../../contracts';
+  ErrorResponse,
+} from '../../../contracts/src/index';
