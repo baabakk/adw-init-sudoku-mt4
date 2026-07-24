@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Difficulty, GetPuzzleResponse, ValidateRequest, ValidateResponse, ErrorResponse } from '@init-sudoku-mt4/contracts';
+import { Difficulty, GetPuzzleResponse, ValidateRequest, ValidateResponse } from '../types';
 import { generatePuzzle, validateBoard } from '../services/puzzleService';
 
 /**
@@ -22,9 +22,8 @@ export function getPuzzle(req: Request, res: Response, next: NextFunction) {
       return next(err);
     }
     const difficulty = difficultyParam as Difficulty;
-    const board = generatePuzzle(difficulty);
-    const payload: GetPuzzleResponse = { board, difficulty };
-    res.json(payload);
+    const puzzleResponse: GetPuzzleResponse = generatePuzzle(difficulty);
+    res.json(puzzleResponse);
   } catch (e) {
     return next(e);
   }
@@ -43,9 +42,8 @@ export function postValidate(req: Request, res: Response, next: NextFunction) {
       return next(err);
     }
     const board = body.board as any;
-    const isCorrect = validateBoard(board);
-    const payload: ValidateResponse = { isCorrect };
-    res.json(payload);
+    const validateResponse: ValidateResponse = validateBoard(board);
+    res.json(validateResponse);
   } catch (e) {
     return next(e);
   }

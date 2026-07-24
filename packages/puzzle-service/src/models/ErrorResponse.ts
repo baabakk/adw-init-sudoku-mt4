@@ -1,13 +1,9 @@
 /**
- * Error response model adhering to the shared contract.
+ * Standard error response format matching the shared contracts.
  */
 export interface ErrorResponse {
-  /**
-   * Machine‑readable error code, e.g., "BAD_REQUEST" or "INTERNAL_ERROR".
-   */
+  /** Machine‑readable error code */
   errorCode: string;
-  /**
-   * Human‑readable message describing the error.
-   */
+  /** Human‑readable error message */
   message: string;
 }
