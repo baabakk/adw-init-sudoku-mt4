@@ -1,9 +1,9 @@
-import type { ScoreSubmission, ScoreResponse, LeaderboardResponse, ErrorResponse, Difficulty } from '../types';
+import type { Difficulty, ScoreSubmission, ScoreResponse, LeaderboardResponse, ErrorResponse } from '../contracts/types';
 
 const API_BASE = '';
 
 /**
- * Submit a completed game score.
+ * Submit a completed game score to the Scores Service.
  */
 export async function submitScore(submission: ScoreSubmission): Promise<ScoreResponse> {
   const url = `${API_BASE}/scores`;
@@ -25,7 +25,7 @@ export async function submitScore(submission: ScoreSubmission): Promise<ScoreRes
  */
 export async function getLeaderboard(difficulty: Difficulty): Promise<LeaderboardResponse> {
   const url = `${API_BASE}/leaderboard?difficulty=${encodeURIComponent(difficulty)}`;
-  const resp = await fetch(url, { method: 'GET' });
+  const resp = await fetch(url);
   if (!resp.ok) {
     const err: ErrorResponse = await resp.json();
     throw err;

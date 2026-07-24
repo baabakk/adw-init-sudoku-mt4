@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getLeaderboard } from '../services/api';
+import { getLeaderboard } from '../api/scoresService';
 import type { LeaderboardResponse, ScoreEntry, Difficulty, ErrorResponse } from '../contracts/types';
 import ErrorDisplay from './ErrorDisplay';
+import '../styles/Leaderboard.css';
 
 interface Props {
   /** Difficulty for which to show the leaderboard */
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const Leaderboard: React.FC<Props> = ({ difficulty, entries: propEntries }) => {
-  const [entries, setEntries] = useState<ScoreEntry[]>(propEntries ?? []);
+  const [entries, setEntries] = useState<ScoreEntry[]>(propEntries ? [...propEntries] : []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,7 +23,7 @@ const Leaderboard: React.FC<Props> = ({ difficulty, entries: propEntries }) => {
       setError(null);
       try {
         const data: LeaderboardResponse = await getLeaderboard(difficulty);
-        setEntries(data.entries);
+        setEntries([...data.entries]);
       } catch (e) {
         const err = e as ErrorResponse;
         setError(err.message ?? 'Failed to load leaderboard');

@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { submitScore } from '../services/api';
+import { submitScore } from '../api/scoresService';
 import type { ScoreSubmission, ScoreResponse, ErrorResponse, Difficulty } from '../contracts/types';
 import ErrorDisplay from './ErrorDisplay';
+import './styles/ScoreSubmission.css';
 
 interface Props {
-  /** Difficulty of the puzzle that was solved */
   difficulty: Difficulty;
-  /** Time taken to solve the puzzle in milliseconds */
-  timeToSolve: number;
-  /** Callback invoked after a successful score submission */
+  timeToSolve: number; // seconds
   onScoreSubmitted: (response: ScoreResponse) => void;
 }
 
@@ -16,22 +14,21 @@ const ScoreSubmission: React.FC<Props> = ({ difficulty, timeToSolve, onScoreSubm
   const [playerName, setPlayerName] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!playerName.trim()) {
-      setError('Player name is required');
-      return;
-    }
+    if (!playerName) return;
     setSubmitting(true);
     setError(null);
     const payload: ScoreSubmission = {
-      playerName: playerName.trim(),
+      playerName,
       difficulty,
-      timeToSolve,
+      timeToSolve: timeToSolve * 1000, // convert seconds to ms
     };
     try {
       const resp: ScoreResponse = await submitScore(payload);
+      setSuccess(true);
       onScoreSubmitted(resp);
     } catch (e) {
       const err = e as ErrorResponse;
@@ -41,24 +38,28 @@ const ScoreSubmission: React.FC<Props> = ({ difficulty, timeToSolve, onScoreSubm
     }
   };
 
+  if (success) {
+    return <p className="score-success">Score submitted! 🎉</p>;
+  }
+
   return (
-    <div className="score-submission">
-      <h2>Submit Your Score</h2>
-      <form onSubmit={handleSubmit} className="score-form">
+    <form className="score-submission" onSubmit={handleSubmit}>
+      <h3>Submit Your Score</h3>
+      <label>
+        Name:
         <input
           type="text"
-          placeholder="Your name"
           value={playerName}
           onChange={(e) => setPlayerName(e.target.value)}
           disabled={submitting}
-          className="score-input"
+          required
         />
-        <button type="submit" disabled={submitting} className="score-button">
-          {submitting ? 'Submitting...' : 'Submit'}
-        </button>
-      </form>
+      </label>
+      <button type="submit" disabled={submitting} className="submit-score-button">
+        {submitting ? 'Submitting...' : 'Submit Score'}
+      </button>
       {error && <ErrorDisplay message={error} />}
-    </div>
+    </form>
   );
 };
 

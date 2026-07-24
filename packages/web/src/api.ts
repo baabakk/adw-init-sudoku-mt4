@@ -1,10 +1,8 @@
-import type { Difficulty, GetPuzzleResponse, ValidateResponse, ErrorResponse, Board } from '../contracts/types';
+import type { Difficulty, GetPuzzleResponse, ValidateResponse, ErrorResponse, Board } from '../../contracts/src';
 
 const API_BASE = '';
 
-/**
- * Fetch a new puzzle from the Puzzle Service.
- */
+/** Fetch a new puzzle from the Puzzle Service. */
 export async function getPuzzle(difficulty: Difficulty): Promise<GetPuzzleResponse> {
   const url = `${API_BASE}/puzzle?difficulty=${encodeURIComponent(difficulty)}`;
   const resp = await fetch(url);
@@ -16,9 +14,7 @@ export async function getPuzzle(difficulty: Difficulty): Promise<GetPuzzleRespon
   return data;
 }
 
-/**
- * Validate the completed board via Puzzle Service.
- */
+/** Validate the completed board via Puzzle Service. */
 export async function validateBoard(board: Board): Promise<ValidateResponse> {
   const url = `${API_BASE}/validate`;
   const resp = await fetch(url, {

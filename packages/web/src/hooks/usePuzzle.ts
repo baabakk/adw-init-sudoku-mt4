@@ -20,7 +20,7 @@ export function usePuzzle(initialDifficulty: Difficulty = 'easy') {
       setBoard(data.board);
     } catch (e) {
       const err = e as ErrorResponse;
-      setError(err.error ?? 'Failed to fetch puzzle');
+      setError(err.message ?? 'Failed to fetch puzzle');
     } finally {
       setLoading(false);
     }

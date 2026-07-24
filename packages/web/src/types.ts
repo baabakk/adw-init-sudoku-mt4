@@ -1,27 +1,11 @@
-export type Difficulty = 'easy' | 'medium' | 'hard';
+// Re-export shared contract types for convenience within the web client
+import type {
+  Difficulty,
+  ScoreSubmission,
+  ScoreResponse,
+  LeaderboardResponse,
+  ScoreEntry,
+  ErrorResponse,
+} from '../../contracts/src';
 
-export interface ScoreSubmission {
-  playerName: string;
-  difficulty: Difficulty;
-  timeToSolve: number; // milliseconds
-}
-
-export interface ScoreResponse {
-  status: string;
-}
-
-export interface ScoreEntry {
-  playerName: string;
-  difficulty: Difficulty;
-  timeToSolve: number; // milliseconds
-  rank: number;
-}
-
-export interface LeaderboardResponse {
-  entries: ScoreEntry[];
-}
-
-export interface ErrorResponse {
-  errorCode: string;
-  message: string;
-}
+export type { Difficulty, ScoreSubmission, ScoreResponse, LeaderboardResponse, ScoreEntry, ErrorResponse };

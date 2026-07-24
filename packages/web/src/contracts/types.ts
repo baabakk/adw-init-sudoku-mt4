@@ -1,11 +1,8 @@
-// Re-export shared contract types for the web client.
-// This file provides a convenient import path for components within the web
-// package while ensuring the exact shapes defined in the shared contracts are
-// used.
-
+// Re-export shared contract types for internal imports
+import type * as Contracts from '../../contracts/src';
 export type {
-  Board,
   Difficulty,
+  Board,
   GetPuzzleResponse,
   ValidateResponse,
   ErrorResponse,
@@ -13,4 +10,4 @@ export type {
   ScoreResponse,
   LeaderboardResponse,
   ScoreEntry,
-} from "../../../contracts/src/index";
+} from '../../contracts/src';

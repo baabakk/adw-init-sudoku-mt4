@@ -16,7 +16,7 @@ import type {
   ScoreResponse,
   LeaderboardResponse,
   ScoreEntry,
-} from './contracts/types';
+} from './types';
 import { isMoveValid } from './utils/moveValidation';
 import './styles/Board.css';
 import './styles/App.css';
@@ -55,15 +55,16 @@ const App: React.FC = () => {
 
   const handleCellChange = (row: number, col: number, value: number) => {
     if (!board) return;
-    const newBoard = board.map((r) => r.slice()) as BoardType;
-    newBoard[row][col] = value;
-    const move = { board: newBoard, row, col, value };
+    // Create a mutable copy of the board (deep copy of rows)
+    const mutableBoard = board.map((r) => r.slice()) as number[][];
+    mutableBoard[row][col] = value;
+    const move = { board: mutableBoard as BoardType, row, col, value };
     if (!isMoveValid(move)) {
       setMoveError(`Invalid move at (${row + 1}, ${col + 1})`);
     } else {
       setMoveError(null);
     }
-    setBoard(newBoard);
+    setBoard(mutableBoard as BoardType);
   };
 
   const handleSubmit = async () => {
@@ -85,7 +86,7 @@ const App: React.FC = () => {
     // After successful score submission, fetch leaderboard
     try {
       const lb: LeaderboardResponse = await getLeaderboard(difficulty);
-      setLeaderboardEntries(lb.entries);
+      setLeaderboardEntries([...lb.entries] as ScoreEntry[]);
       setShowLeaderboard(true);
     } catch (e) {
       const err = e as ErrorResponse;
